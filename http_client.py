@@ -63,7 +63,7 @@ def check_method(method):
         return False
     return True
 
-def assemble_headers()：
+def assemble_headers(**kwargs)：
     '''
     1.generally header
     2.request   header
@@ -71,7 +71,15 @@ def assemble_headers()：
     4.body      header
     5.extend    header
     '''
-    
+    header_str = ''
+    for k, v in dict(kwargs).items():
+        header_str = header_str + '{0}: {1}\r\n'.format(k, v)
+    return header_str
+
+def assemble_http_packet(header_str, method='GET', url='/', 
+            http_verion='1.1', **kwargs):
+    start_line = '{0} {1} HTTP/{2}\r\n'.format(method, url, http_verion)
+    return start_line + header_str
 
 if __name__ == '__main__':
     if len(sys.argv) < 5:
@@ -93,4 +101,10 @@ if __name__ == '__main__':
     if check_method != True:
         exit -1
 
+    # assemble headers
+    header_str = assemble_headers(host=ip)
+
+    # assemble http packet
+    http_packet = assemble_http_packet(header_str=header_str, method=method
+                                        url=url)
 
