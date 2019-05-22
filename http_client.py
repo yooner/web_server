@@ -14,12 +14,12 @@ def client(*argv):
     Accept-Language:zh-CN,zh;q=0.9,en;q=0.8,en-US;q=0.7\r\n
     Cookie:xx=xx;yy=yy\r\n
     ----
-    useage: http_client.py ip:port/path
+    useage: http_client.py ip:port/path get/post [postting]
     '''
     
     if len(argv):
         pass
-    with socket.socket(family=AF_INET, type=SOCKET_STEAM, proto=0, fileno=None) as s:
+    with socket.socket(family=SOCKET.AF_INET, type=SOCKET.SOCKET_STEAM, proto=0, fileno=None) as s:
         s.connect(address)
         s.sendall(b'hello')
         data = s.recv(1024)
@@ -59,26 +59,38 @@ def check_port(port):
 def check_method(method):
     method_list = ['GET', 'POST']
     if method.upper() not in method_list:
-        usegae('method format error')
+        useage('method format error')
+        return False
+    return True
 
+def assemble_headers()：
+    '''
+    1.generally header
+    2.request   header
+    3.post      header
+    4.body      header
+    5.extend    header
+    '''
+    
 
 if __name__ == '__main__':
     if len(sys.argv) < 5:
         useage()
     
     # parse ip and url
-    ip_and_url = argv[1]
+    ip_and_url = sys.argv[1]
 
-    ip = argv[1].partition(':')[0]
-    if !check_ip(ip):
-        return 
-    port = argv[1].partition('/')[0].partition(':')[2]
-    if !check_port(port):
-        return
-    url = '/' + argv[1].partition('/')[2]
+    ip = sys.argv[1].partition(':')[0]
+    if check_ip(ip) != True:
+        exit -1
+    port = sys.argv[1].partition('/')[0].partition(':')[2]
+    if check_port(port) != True:
+        exit -1
+    url = '/' + sys.argv[1].partition('/')[2]
 
     # parse method
-    method = argv[2]
-
+    method = sys.argv[2]
+    if check_method != True:
+        exit -1
 
 
