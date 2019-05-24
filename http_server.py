@@ -15,7 +15,9 @@ def make_server():
     Expires: web, 22 May 2019 06:49:36 GMT\r\n
     Cache-Control: max-age=86400\r\n
     Cache-Control: privae\r\n
-    File Date: 161 bytes
+    File Date: 161 bytes\r\n
+    \r\n
+    body
     '''
     with socket.socket(family=AF_INET, type=SOCKET_STREAM, proto=0, fileno=None) as s:
         s.bind(server_address)
