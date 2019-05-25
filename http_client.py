@@ -25,7 +25,7 @@ def clientrequest(request, address=address_default):
         s.connect(address)
         s.sendall(request)
         data = s.recv(MAX_LENGTH)
-    print(data)
+    return data
     
 def useage(print_str=None):
     if print_str:
@@ -102,8 +102,24 @@ def parse_response(response_data):
         headers[key] = value.strip()
     
     body = response_data[header_end_postion+1:]
-    return http_version, stats_code, desc_str, headers, body
-        
+    return http_version, int(stats_code), desc_str, headers, body
+
+def handle_status_code(code, **kwargs):
+    if not isinstance(code, int):
+        useage('status code is`t int num')
+        raise TypeError
+
+    if 200 <= code <= 209:  # 200 ~ 299 ok
+        return True
+    elif 300 <= code <= 399: # 300 ~ 399 move
+        handle_300(kwargs)
+    elif 400 <= code <= 499: # 400 ~ 499 not found client error
+        handle_400(kwargs)
+    elif 500 <= code <= 599: # 500 ~ 599 server error
+        handle_500(kwargs)
+    else:
+        handle_other_code(kwargs)
+    return False
 
 
 if __name__ == '__main__':

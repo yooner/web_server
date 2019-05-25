@@ -19,7 +19,7 @@ def make_server():
     \r\n
     body
     '''
-    with socket.socket(family=AF_INET, type=SOCKET_STREAM, proto=0, fileno=None) as s:
+    with socket.socket(family=socket.AF_INET, type=socket.SOCK_STREAM, proto=0, fileno=None) as s:
         s.bind(server_address)
         s.listen()
         while True:
